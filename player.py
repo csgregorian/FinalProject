@@ -3,12 +3,13 @@ class Player:
         self.x = 64*4
         self.y = 64*3
         self.dir = "R"
-        self.sprite = {x: (transform.scale(image.load(x+"1.png"), (64, 64)),
-                        transform.scale(image.load(x+"2.png"), (64, 64))) for x in ["R", "L", "D", "U"]}
+        self.sprites = {x: (transform.scale(image.load(x+"1.png"), (64, 64)),
+                        transform.scale(image.load(x+"2.png"), (64, 64))) for x in ["R", "L", "D", "U",
+        ]}
         self.speed = 8
         self.frame = 0
     def current_sprite(self):
-        return self.sprite[self.dir][self.frame]
+        return self.sprites[self.dir][self.frame]
     def update(self):
         global xcamera, ycamera
         self.frame = frametracker1%20//10
@@ -46,9 +47,9 @@ class Player:
                 self.y -= self.speed
                 self.update()
         if key.get_pressed()[K_x]:
-            self.attack()
-    def attack(self):
-        pass
+            self.sword()
+    def sword(self):
+        self.dir += "sword"
     def centre_tile(self):
         x = self.x + 32
         y = self.y + 32

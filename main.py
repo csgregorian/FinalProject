@@ -3,6 +3,7 @@ import sys
 import os
 import numpy as np
 from random import randrange
+from player import Player
 
 os.environ['SDL_VIDEO_WINDOW_POS'] = "1,1"
 
@@ -63,40 +64,50 @@ class Player:
         if self.x > 1216 and xcamera < 7:
             screenslide("R")
             xcamera += 1
+
         elif self.x < 0 and xcamera > 0:
             screenslide("L")
             xcamera -= 1
+
         elif self.y > 960 and ycamera < 7:
             screenslide("D")
             ycamera += 1
+
         elif self.y < 0 and ycamera > 0:
             screenslide("U")
             ycamera -= 1
+
     def keys(self):
         if key.get_pressed()[K_RIGHT]:
             self.dir = "R"
             if not collide(self.x+64, self.y+16) and not collide(self.x+64, self.y+48):
                 self.x += self.speed
                 self.update()
+
         elif key.get_pressed()[K_LEFT]:
             self.dir = "L"
             if not collide(self.x+16, self.y+16) and not collide(self.x, self.y+48):
                 self.x -= self.speed
                 self.update()
+
         if key.get_pressed()[K_DOWN]:
             self.dir = "D"
             if not collide(self.x+16, self.y+64) and not collide(self.x+48, self.y+64):
                 self.y += self.speed
                 self.update()
+
         elif key.get_pressed()[K_UP]:
             self.dir = "U"
             if not collide(self.x+16, self.y) and not collide(self.x+48, self.y):
                 self.y -= self.speed
                 self.update()
+
         if key.get_pressed()[K_x]:
-            self.attack()
+            self.sword()
+
     def attack(self):
         pass
+        
     def centre_tile(self):
         x = self.x + 32
         y = self.y + 32
@@ -110,10 +121,12 @@ class Player:
             return (x // 64, (y+32) // 64)
 
 class Enemy:
-	def __init__(self):
-		self.x = 64 * randrange(20)
-		self.y = 64 * randrange(16)
-		self.dir = "D"
+    def __init__(self):
+        self.x = 64 * randrange(20)
+        self.y = 64 * randrange(16)
+        self.dir = "D"
+
+        
 
 
 #Map is 20x16 tiles, tiles are 16x16 units, units are 4x4 pixels
@@ -136,35 +149,34 @@ fpsTrack = time.Clock()
 segoeui = font.SysFont("Arial", 48)
 
 class Game:
-	def __init__(self):
-		self.link = Player()
-		self.screen = 
+    def __init__(self):
+        self.link = Player()
 
-	def play(self):
-		while self.running:
-		    for ev in event.get():
-		        if ev.type == QUIT:
-		            self.running = False
-		    self.link.keys()
+    def play(self):
+        while self.running:
+            for ev in event.get():
+                if ev.type == QUIT:
+                    self.running = False
+            self.link.keys()
 
 
-		    screen.blit(world, (0, 0), area=(xcamera * 1280, ycamera * 1024, 1280, 1024))
+            screen.blit(world, (0, 0), area=(xcamera * 1280, ycamera * 1024, 1280, 1024))
 
-		    #Shows collision tiles
-		    # for x in range(20):
-		    #     for y in range(16):
-		    #         if collide(x*64, y*64):
-		    #             screen.fill((255, 255, 255), (64*x, 64*y, 64, 64))
+            #Shows collision tiles
+            # for x in range(20):
+            #     for y in range(16):
+            #         if collide(x*64, y*64):
+            #             screen.fill((255, 255, 255), (64*x, 64*y, 64, 64))
 
-		    screen.blit(self.link.current_sprite(), (self.link.x, self.link.y))
-		    fpsTrack.tick(30)
-		    if fpsTrack.get_time() > 0:
-		        screen.blit(segoeui.render(str(1000//fpsTrack.get_time()), True, (255, 255, 255)), (0, 0))
+            screen.blit(self.link.current_sprite(), (self.link.x, self.link.y))
+            fpsTrack.tick(30)
+            if fpsTrack.get_time() > 0:
+                screen.blit(segoeui.render(str(1000//fpsTrack.get_time()), True, (255, 255, 255)), (0, 0))
 
-		    display.flip()
-		    frametracker1 = (frametracker1 + 1) % 300
+            display.flip()
+            frametracker1 = (frametracker1 + 1) % 300
 
-		quit()
-		sys.exit()
+        quit()
+        sys.exit()
 
 Game().play()
