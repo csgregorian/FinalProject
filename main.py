@@ -111,13 +111,13 @@ class Player:
     def centre_tile(self):
         x = self.x + 32
         y = self.y + 32
-        if self.dir == "R":
+        if dir == "R":
             return ((x-32) // 64, y // 64)
-        elif self.dir == "L":
+        elif dir == "L":
             return ((x+32) // 64, y // 64)
-        elif self.dir == "D":
+        elif dir == "D":
             return (x // 64, (y-32) // 64)
-        elif self.dir == "U":
+        elif dir == "U":
             return (x // 64, (y+32) // 64)
 
 class Enemy:
