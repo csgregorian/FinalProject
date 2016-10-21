@@ -1,0 +1,3 @@
+pygame doesn't accept mp3s or any form of compressed audio
+
+I apologize in advance to anybody who has to run this program with 100 megs of audio
